@@ -1,8 +1,5 @@
 package main
 
-func main() {
-}
-
 func TwoSum(nums []int, target int) []int {
 	var res []int
 	lookup := make(map[int]int)
