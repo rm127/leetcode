@@ -14,8 +14,8 @@ func LongestPalindrome(s string) string {
 			curlength = odd
 		}
 		if (end - start) < curlength {
-			start = i - (curlength - 1) / 2
-			end = i + curlength / 2
+			start = i - (curlength-1)/2
+			end = i + curlength/2
 		}
 	}
 	return s[start : end+1]

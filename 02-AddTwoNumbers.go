@@ -2,8 +2,8 @@ package main
 
 // Definition for singly-linked list.
 type ListNode struct {
-    Val int
-    Next *ListNode
+	Val  int
+	Next *ListNode
 }
 
 func AddTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
