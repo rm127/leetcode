@@ -11,7 +11,7 @@ func reverse(x int) int {
 	for i := 1; i <= size; i++ {
 		digit := rest % 10
 		rest /= 10
-		res = res * 10 + digit
+		res = res*10 + digit
 		// limit for stupid 32-bit integer overflow
 		if causesOverflow(res) {
 			res = 0
