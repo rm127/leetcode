@@ -8,20 +8,24 @@ func TrappingRainWater(height []int) int {
 	}
 
 	trapped := 0
-	var currentlvl int
-	tempTrapped := 0
+	currentlvl := height[0]
 
-	for _, lvl := range height {
-		fmt.Println("lvl: ", lvl, "curlvl: ", currentlvl, "temp: ", tempTrapped, "trapped:", trapped)
+	for i, lvl := range height {
+		fmt.Println("lvl: ", lvl, "curlvl: ", currentlvl, "trapped:", trapped)
 		if lvl < currentlvl {
-			//fmt.Println("adding to temp: ", currentlvl-lvl)
-			tempTrapped += currentlvl - lvl
-		}
-		if lvl >= currentlvl {
 			currentlvl = lvl
-			//fmt.Println("moving to final: ", tempTrapped)
-			trapped += tempTrapped
-			tempTrapped = 0
+		} else if lvl > currentlvl {
+			fmt.Println("--> LOOKBACK")
+			tempTrapped := 0
+			for j := i - 1; j >= 0; j-- {
+				fmt.Println("|--> lvl: ", lvl, "elem: ", height[j], "temp: ", tempTrapped)
+				if height[j] >= lvl {
+					trapped += tempTrapped
+					break
+				} else {
+					tempTrapped += lvl - height[j]
+				}
+			}
 		}
 	}
 
