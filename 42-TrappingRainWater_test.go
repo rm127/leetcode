@@ -12,6 +12,7 @@ func TestTrappingRainWater(t *testing.T) {
 		want int
 	}{
 		{"Cradle", args{[]int{4, 1, 4}}, 3},
+		{"Simple", args{[]int{1, 0, 2}}, 1},
 		{"Example", args{[]int{0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1}}, 6},
 		{"Big cradle", args{[]int{3, 0, 0, 0, 3}}, 9},
 		{"Hill", args{[]int{1, 2, 3, 2, 1}}, 0},
