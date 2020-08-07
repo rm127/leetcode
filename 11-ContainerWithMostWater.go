@@ -3,16 +3,20 @@ package main
 func ContainerWithMostWater(height []int) int {
 	max := 0
 
-	for i := 0; i < len(height)-1; i++ {
-		if (len(height)-i-1)*height[i] <= max {
+	i, j := 0, len(height)-1
+
+	for i < j {
+		temp := (j - i) * Min(height[i], height[j])
+		if temp > max {
+			max = temp
+		}
+
+		if height[i] <= height[j] {
+			i++
 			continue
 		}
-		for j := i + 1; j < len(height); j++ {
-			temp := (j - i) * Min(height[i], height[j])
-			if temp > max {
-				max = temp
-			}
-		}
+
+		j--
 	}
 	return max
 }
