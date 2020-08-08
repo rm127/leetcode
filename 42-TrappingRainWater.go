@@ -8,46 +8,30 @@ func TrappingRainWater(height []int) int {
 	}
 
 	trapped := 0
-	var currentlvl int
 
 	for i := 0; i < len(height); i++ {
-		lvl := height[i]
-		fmt.Println("lvl: ", lvl, "curlvl: ", currentlvl, "trapped:", trapped)
-		overflow := false
-		//tempTrapped := 0
-		l, r := i, i
-		max := lvl
+		fmt.Println(i, "trapped:", trapped)
 		tempTrapped := 0
-		for !overflow {
-			fmt.Println("l: ", l, ", r: ", r, height[l:r+1], ", max: ", max, ", temp: ", tempTrapped)
-
-			if l < i && r > i {
-				tempTrapped = (r - l - 1) * max
-			}
-
-			if lvl > height[l] || lvl > height[r] {
-				overflow = true
-			}
-
-			if l > 0 {
-				l--
-			} else if r < len(height)-1 {
-				r++
+		for j := i + 1; j < len(height); j++ {
+			fmt.Println("--> expanding: ", i, j, "temp: ", tempTrapped)
+			if height[j] >= height[i] {
+				fmt.Println("# reached end")
+				trapped += tempTrapped
+				i = j - 1
+				break
 			} else {
-				// end reached = overflow
-				fmt.Println("## end overflow")
-				overflow = true
+				tempTrapped += height[i] - height[j]
 			}
 		}
-		trapped += tempTrapped
 	}
+
 	return trapped
 }
 
 /*
 
-For each column
--> check all adjacent columns
--> IF a column is lower than the previous, then overflow
--> ELSE move up a row
+#
+#       #
+# # # # #
+
 */
