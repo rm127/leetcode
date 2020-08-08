@@ -39,11 +39,3 @@ func TrappingRainWater(height []int) int {
 	}
 	return trapped
 }
-
-/*
-
-#
-#       #
-# # # # #
-
-*/
