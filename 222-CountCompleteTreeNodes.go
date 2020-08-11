@@ -13,3 +13,12 @@ func countNodes(root *TreeNode) int {
 	}
 	return 1 + countNodes(root.Left) + countNodes(root.Right)
 }
+
+// in javascript
+/*
+
+function countNodes(root) {
+	return root ? 1 + countNodes(root.Left) + countNodes(root.Right) : 0
+}
+
+*/
