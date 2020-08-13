@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"math"
 	"strconv"
 )
@@ -13,14 +12,25 @@ func RestoreIpAddresses(s string) []string {
 func RestoreIp(rd int, p string, s string) []string {
 	l := len(s)
 
-	if rd == 3 && l < 4 {
+	if len(p) > 1 && p[0] == '0' {
+		// if postfix' first digit is zero with a non-zero digit after
+		return []string{}
+
+	} else if rd == 3 && l < 4 {
 		// an Ip address requires at least 4 digits
 		return []string{}
+
 	} else if l > 3 && rd == 0 {
 		// if there are no dots left and string is too long
 		return []string{}
+
 	} else if l <= 3 && l > 0 && rd == 0 {
 		// if the element is 0 < x < 3 and no dots are left
+
+		// if the element's first digit is zero with a non-zero digit after
+		if len(s) > 1 && s[0] == '0' {
+			return []string{}
+		}
 		return []string{s + "." + p}
 	}
 
@@ -36,17 +46,16 @@ func RestoreIp(rd int, p string, s string) []string {
 
 	// check if number is valid and long enough
 	for i := max; i > 0; i-- {
-		if num > 255 && i == 3 {
+		if i == 3 && num > 255 {
 			continue
 		}
 		options = append(options, RestoreIp(rd-1, s[l-i:], s[0:l-i])...)
 	}
 
-	fmt.Println(options)
-
 	// append all possible numbers
 	for i := 0; i < len(options); i++ {
 		value := options[i]
+		// only if postfix is present
 		if p != "" {
 			value += "." + p
 		}
@@ -54,14 +63,4 @@ func RestoreIp(rd int, p string, s string) []string {
 	}
 
 	return res
-}
-
-func count(number int) int {
-	count := 0
-	for number != 0 {
-		number /= 10
-		count += 1
-	}
-	return count
-
 }

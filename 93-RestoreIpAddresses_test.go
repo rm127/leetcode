@@ -20,6 +20,7 @@ func TestRestoreIpAddresses(t *testing.T) {
 		{"Four", args{"1111"}, []string{"1.1.1.1"}},
 		{"Four zero", args{"0000"}, []string{"0.0.0.0"}},
 		{"Strip zeros", args{"010010"}, []string{"0.10.0.10", "0.100.1.0"}},
+		{"Nines", args{"9999999"}, []string{"9.99.99.99", "99.9.99.99", "99.99.9.99", "99.99.99.9"}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
