@@ -2,37 +2,58 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"strconv"
 )
 
 func RestoreIpAddresses(s string) []string {
-	return IpRestore("", s)
+	// an Ip address requires at least 4 digits
+	if len(s) < 4 {
+		return []string{}
+	}
+	return RestoreIp(3, "", s)
 }
 
-func IpRestore(prefix string, s string) []string {
+func RestoreIp(rd int, p string, s string) []string {
 	var res []string
-	if len(s) < 3 {
-		return []string{s}
-	}
-
 	var options []string
 
-	current := s[0:3]
+	l := len(s)
 
-	convInt, _ := strconv.Atoi(current)
-
-	fmt.Println("curr: ", convInt, s)
-
-	if convInt > 255 {
-		current = s[0:2]
-		options = append(options, IpRestore(s[0:2], s[2:])...)
-	} else {
-		options = append(options, IpRestore(s[0:3], s[3:])...)
+	if l > 3 && rd == 0 {
+		// if there are no dots left and string is too long
+		return []string{}
+	} else if l <= 3 && l > 0 && rd == 0 {
+		// if the element is 0 < x < 3 and no dots are left
+		return []string{s + "." + p}
 	}
 
-	fmt.Println("opts: ", options)
+	// get the last biggest number (3-1 digits)
+
+	end := s[l-int(math.Min(float64(l), 3)):]
+
+	num, _ := strconv.Atoi(end)
+
+	fmt.Println(int(math.Min(float64(l), 3)), num)
+
+	// check if number is valid and long enough
+	if num <= 255 && l > 2 {
+		options = append(options, RestoreIp(rd-1, s[l-3:], s[0:l-3])...)
+	}
+	if l > 1 {
+		options = append(options, RestoreIp(rd-1, s[l-2:], s[0:l-2])...)
+	}
+	if l > 0 {
+		options = append(options, RestoreIp(rd-1, s[l-1:], s[0:l-1])...)
+	}
+
 	for i := 0; i < len(options); i++ {
-		res = append(res, prefix+"."+options[i])
+		value := options[i]
+		if p != "" {
+			value += "." + p
+		}
+		res = append(res, value)
 	}
+
 	return res
 }
