@@ -7,20 +7,16 @@ import (
 )
 
 func RestoreIpAddresses(s string) []string {
-	// an Ip address requires at least 4 digits
-	if len(s) < 4 {
-		return []string{}
-	}
 	return RestoreIp(3, "", s)
 }
 
 func RestoreIp(rd int, p string, s string) []string {
-	var res []string
-	var options []string
-
 	l := len(s)
 
-	if l > 3 && rd == 0 {
+	if rd == 3 && l < 4 {
+		// an Ip address requires at least 4 digits
+		return []string{}
+	} else if l > 3 && rd == 0 {
 		// if there are no dots left and string is too long
 		return []string{}
 	} else if l <= 3 && l > 0 && rd == 0 {
@@ -28,25 +24,28 @@ func RestoreIp(rd int, p string, s string) []string {
 		return []string{s + "." + p}
 	}
 
+	var res []string
+	var options []string
+
 	// get the last biggest number (3-1 digits)
+	max := int(math.Min(float64(l), 3))
+	end := s[l-max:]
 
-	end := s[l-int(math.Min(float64(l), 3)):]
-
+	// convert to number
 	num, _ := strconv.Atoi(end)
 
-	fmt.Println(int(math.Min(float64(l), 3)), num)
-
 	// check if number is valid and long enough
-	if num <= 255 && l > 2 {
-		options = append(options, RestoreIp(rd-1, s[l-3:], s[0:l-3])...)
-	}
-	if l > 1 {
-		options = append(options, RestoreIp(rd-1, s[l-2:], s[0:l-2])...)
-	}
-	if l > 0 {
-		options = append(options, RestoreIp(rd-1, s[l-1:], s[0:l-1])...)
+	if num <= 255 {
+		for i := max; i > 0; i-- {
+			if l >= i {
+				options = append(options, RestoreIp(rd-1, s[l-i:], s[0:l-i])...)
+			}
+		}
 	}
 
+	fmt.Println(options)
+
+	// append all possible numbers
 	for i := 0; i < len(options); i++ {
 		value := options[i]
 		if p != "" {
