@@ -4,8 +4,8 @@ func isValidSudoku(board [][]byte) bool {
 	err := false
 
 	// box increaser
-	boxVerOffset := 0
-	boxVerMove := 0
+	boxVerOffset := 0 // goes 0..3..6..0 (columns)
+	boxVerMove := 0   // goes 0..3..6 (rows)
 
 	// row/column check
 	for i := 0; i < 9; i++ {
@@ -13,7 +13,7 @@ func isValidSudoku(board [][]byte) bool {
 			break
 		}
 
-		boxHorOffset := 0
+		boxHorOffset := 0 // goes 0..1..2..3
 
 		// store current numbers in row/column
 		var horNums []byte
