@@ -35,12 +35,11 @@ func RestoreIp(rd int, p string, s string) []string {
 	num, _ := strconv.Atoi(end)
 
 	// check if number is valid and long enough
-	if num <= 255 {
-		for i := max; i > 0; i-- {
-			if l >= i {
-				options = append(options, RestoreIp(rd-1, s[l-i:], s[0:l-i])...)
-			}
+	for i := max; i > 0; i-- {
+		if num > 255 && i == 3 {
+			continue
 		}
+		options = append(options, RestoreIp(rd-1, s[l-i:], s[0:l-i])...)
 	}
 
 	fmt.Println(options)
@@ -55,4 +54,14 @@ func RestoreIp(rd int, p string, s string) []string {
 	}
 
 	return res
+}
+
+func count(number int) int {
+	count := 0
+	for number != 0 {
+		number /= 10
+		count += 1
+	}
+	return count
+
 }
