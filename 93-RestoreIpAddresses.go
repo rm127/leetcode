@@ -31,6 +31,14 @@ func RestoreIp(rd int, p string, s string) []string {
 		if len(s) > 1 && s[0] == '0' {
 			return []string{}
 		}
+
+		// convert to number
+		num, _ := strconv.Atoi(s)
+		// if first number is above 255 limit
+		if num > 255 {
+			return []string{}
+		}
+
 		return []string{s + "." + p}
 	}
 
@@ -39,13 +47,12 @@ func RestoreIp(rd int, p string, s string) []string {
 
 	// get the last biggest number (3-1 digits)
 	max := int(math.Min(float64(l), 3))
-	end := s[l-max:]
 
 	// convert to number
-	num, _ := strconv.Atoi(end)
+	num, _ := strconv.Atoi(s[l-max:])
 
-	// check if number is valid and long enough
 	for i := max; i > 0; i-- {
+		// if number is above 255 limit
 		if i == 3 && num > 255 {
 			continue
 		}
