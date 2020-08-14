@@ -11,10 +11,12 @@ func Test_checkRecord2(t *testing.T) {
 		args args
 		want int
 	}{
-		{"Example 1", args{2}, 8},
 		{"1", args{1}, 3},
+		{"2 (Example 1)", args{2}, 8},
 		{"3", args{3}, 19},
 		{"4", args{4}, 43},
+		{"5", args{5}, 94},
+		{"6", args{6}, 200},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
