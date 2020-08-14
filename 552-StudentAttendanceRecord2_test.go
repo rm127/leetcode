@@ -17,6 +17,10 @@ func Test_checkRecord2(t *testing.T) {
 		{"4", args{4}, 43},
 		{"5", args{5}, 94},
 		{"6", args{6}, 200},
+		{"7", args{7}, 418},
+		{"8", args{8}, 861},
+		{"9", args{9}, 1753},
+		{"10", args{10}, 3536},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
