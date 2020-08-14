@@ -21,13 +21,16 @@ func getLs(n int) int {
 }
 
 func getAs(n int) int {
-	if n == 1 {
+	if n < 2 {
+		return 0
+	}
+	if n == 2 {
 		return 1
 	}
 	prev := getAs(n - 1)
-	count := int(math.Pow(3, float64(n-2)))
-	prevCenter := int(math.Min(float64(prev+count*4), float64(count*9)))
-	fmt.Println("p: ", prev, count)
+	count := int(math.Pow(3, float64(n-3)))
+	prevCenter := prev + (count-int(math.Max(0, float64((n-4)*2-1))))*4
+	fmt.Println("p: ", prev, count, prevCenter, int(math.Max(0, float64((n-4)*2-1))))
 	return prev*2 + prevCenter
 }
 
@@ -47,19 +50,6 @@ n   recs   count   LL+s   A+s     2*+x   diff   diff
 10   59049   3536   ?      51868   30     -1    30
 
 ---
-
-27/3 = 9
-
-9 = L, 3 = L, 1 = L
-       3 = A, 1 = A
-
-9 = A, 3 = L, 1 = A
-	   3 = A
-	   3 = P, 1 = A
-9 = P, 3 = A, 1 = A
-
----
-
 
 A:
 .       1
