@@ -1,53 +1,35 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func isNumber(s string) bool {
-	dict := make(map[byte]int, 10)
+	fmt.Println(strings.Join(parseNumber(s), ", "))
+	return true
+}
 
-	// space check
-	seenNonSpace := false
-
-	for i := 0; i < len(s); i++ {
-		curr := s[i]
-
-		// letter check
-		if !isOperator(curr) && !isDigit(curr) {
-			fmt.Println("-> letter check")
-			return false
+func parseNumber(s string) []string {
+	if len(s) > 0 {
+		curr := s[0]
+		if !isDigit(curr) && !isOperator(curr) {
+			return append(parseNumber(s[1:]), "letter")
 		}
-
-		// space check
-		if i > 0 && s[i-1] == ' ' && curr != ' ' && seenNonSpace && dict[' '] > 0 {
-			fmt.Println("-> space check")
-			return false
+		if curr == ' ' {
+			return append(parseNumber(s[1:]), "space")
 		}
-		if !seenNonSpace && curr != ' ' {
-			seenNonSpace = true
-		}
-
-		// exp required digits check
 		if curr == 'e' {
-			if i+1 < len(s) && i > 0 {
-				if !isDigit(s[i-1]) || !(isDigit(s[i+1]) || (isOperator(s[i+1]) && s[i+1] != ' ')) {
-					fmt.Println("-> exp check")
-					return false
-				}
-			} else {
-				fmt.Println("-> exp check")
-				return false
-			}
+			return append(parseNumber(s[1:]), "exp")
 		}
-
-		if isOperator(curr) {
-			if curr != ' ' && dict[curr] > 0 {
-				fmt.Println("-> same twice")
-				return false
+		for i := 1; i < len(s); i++ {
+			if (!isDigit(curr) && !isOperator(curr)) || curr == ' ' || curr == 'e' || i == len(s)-1 {
+				fmt.Println(i, string(curr), "-"+s[0:i]+"-")
+				return append(parseNumber(s[i+1:]), "xx")
 			}
-			dict[curr]++
 		}
 	}
-	return true
+	return []string{}
 }
 
 func isDigit(s byte) bool {
